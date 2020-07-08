@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fetch-Comics</title>
+</head>
+<body>
+
+    <script type="text/javascript">
+        advanceComic = async (latest) =>{
+            let array = []
+            for(let i = 0 ; i < 10 ; i++ ){
+                try{
+                    array[i] = await fetch(`https://xkcd.now.sh/?comic=${latest-i}`)
+                    .then((response)=> response.json() )
+                }
+                catch(err){
+                    console.log(err)
+                }
+            }
+            console.log(array)
+        }
+
+        comic = () =>{
+            fetch('https://xkcd.now.sh/?comic=latest')
+            .then((response)=> response.json() )
+            .then((response)=> {
+                // fetchcomic(response.num)
+                // .then((response) =>console.log(response))
+                advanceComic(response.num)
+            })
+        }
+
+        fetchcomic = (latest) =>{
+            let array = []
+            for(let i = 0 ; i < 10 ; i++ ){
+                array[i] = fetch(`https://xkcd.now.sh/?comic=${latest-i}`)
+                .then((response)=> response.json() )
+            }
+            return Promise.all(array)
+        }
+
+        window.addEventListener('load',function(){
+            comic()
+        })
+    </script>
+
+</body>
+</html>
